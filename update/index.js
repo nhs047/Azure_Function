@@ -1,18 +1,28 @@
 var Connection = require('tedious').Connection;
 var Request = require('tedious').Request;
 var TYPES = require('tedious').TYPES;
-module.exports = function (context, req) {
-    var _currentData = {};
+module.exports = function (context,req) {
 try {
-    if(!req.params.id){
-        context.res = returnObj(
-            400, 
-            {
-                message: ex.message
-            }
-        );
-        context.done();
-    }
+        var fields = ["firstName","lastName","dateOfBirth","passportId","nId"];
+        var retObj = {};
+        for (var prop in req.body) {
+          if (fields.indexOf(prop) != -1) retObj[prop] = req.body[prop];
+        }
+        var updatePhrese = "";
+        var keys = Object.keys(retObj);
+        for(var i=0; i<keys.length;i++){
+            updatePhrese += ` ${keys[i]}='${retObj[keys[i]]}'`;
+            if(i!=keys.length-1) updatePhrese +=`,`;
+        }
+        if(keys.length<1) {
+            context.res = returnObj(
+                400, 
+                {
+                    message: 'No Update Found!'
+                }
+            );
+            context.done();
+        }     
         var config = {
             userName: 'nobihossain',
             password: 'Onto@123',
@@ -21,29 +31,21 @@ try {
         };
         var connection = new Connection(config);
         connection.on('connect', () => {
-            request = new Request(`SELECT * FROM ServerLessPoc where id = ${req.params.id};`, (err)=>{
+            request = new Request(`UPDATE ServerLessPoc SET${updatePhrese} WHERE id = ${req.params.id};`, (err)=>{
                 if(err) {context.res = returnObj(
                     400, 
                     {
-                        message: ex.message
+                        message: err.message
                     }
                 );
                 context.done();
             }
             });
-            request.on('row', function(columns) {
-                _currentData.id = columns[0].value;
-                _currentData.firstName = columns[1].value;
-                _currentData.lastName = columns[2].value;
-                _currentData.dateOfBirth = columns[3].value;
-                _currentData.passportId = columns[4].value;
-                _currentData.nId = columns[5].value;
-                _currentData.createdAt = columns[6].value;
-            });
+            
             request.on('requestCompleted', () => {
                 context.res = returnObj(
                     200, 
-                    _currentData
+                    retObj
                 );
                 context.done();
             })

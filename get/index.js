@@ -3,7 +3,6 @@ var Request = require('tedious').Request;
 var TYPES = require('tedious').TYPES;
 module.exports = function (context) {
     var _retArray = [];
-    var _currentData = {};
 try {
         var config = {
             userName: 'nobihossain',
@@ -24,14 +23,15 @@ try {
             }
             });
             request.on('row', function(columns) {
-                _currentData.id = columns[0].value;
-                _currentData.firstName = columns[1].value;
-                _currentData.lastName = columns[2].value;
-                _currentData.dateOfBirth = columns[3].value;
-                _currentData.passportId = columns[4].value;
-                _currentData.nId = columns[5].value;
-                _currentData.createdAt = columns[6].value;
-                _retArray.push(_currentData);
+                let singleRecord = {};
+                singleRecord.id = columns[0].value;
+                singleRecord.firstName = columns[1].value;
+                singleRecord.lastName = columns[2].value;
+                singleRecord.dateOfBirth = columns[3].value;
+                singleRecord.passportId = columns[4].value;
+                singleRecord.nId = columns[5].value;
+                singleRecord.createdAt = columns[6].value;
+                _retArray.push(singleRecord);
             });
             request.on('requestCompleted', () => {
                 context.res = returnObj(
