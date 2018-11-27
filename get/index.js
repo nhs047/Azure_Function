@@ -59,7 +59,11 @@ try {
                 status,
                 body,
                 headers : {
-                    'Content-Type': 'application/json'
+                    'Content-Type': 'application/json',
+                    'Access-Control-Allow-Credentials': 'true',
+          'Access-Control-Allow-Origin': '*',
+          'Access-Control-Allow-Methods': 'GET',
+          'Access-Control-Request-Headers': 'X-Custom-Header'
                 }
         }
     }

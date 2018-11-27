@@ -8,6 +8,9 @@ try {
         for (var prop in req.body) {
           if (fields.indexOf(prop) != -1) retObj[prop] = req.body[prop];
         }
+        
+        if(retObj.dateOfBirth) 
+            retObj.dateOfBirth = `${new Date(retObj.dateOfBirth).toISOString().slice(0,10)}`;
         var updatePhrese = "";
         var keys = Object.keys(retObj);
         for(var i=0; i<keys.length;i++){

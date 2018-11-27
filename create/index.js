@@ -17,7 +17,6 @@ try {
             valuePhrese += ` '${retObj[keys[i]]}'`;
             if(i!=keys.length-1) { keyPhrese +=`,`; valuePhrese +=`,`; }
         }
-        console.log(keyPhrese, valuePhrese);
         
         if(keys.length<1) {
             context.res = returnObj(
@@ -28,6 +27,7 @@ try {
             );
             context.done();
         }     
+        console.log(keyPhrese, valuePhrese);
         var config = {
             userName: 'nobihossain',
             password: 'Onto@123',
