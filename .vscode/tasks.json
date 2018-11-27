@@ -9,7 +9,12 @@
       "presentation": {
         "reveal": "always"
       },
-      "problemMatcher": "$func-watch"
+      "problemMatcher": "$func-watch",
+      "options": {
+        "env": {
+          "languageWorkers__node__arguments": "--inspect=5858"
+        }
+      }
     }
   ]
 }
