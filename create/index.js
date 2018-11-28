@@ -1,9 +1,9 @@
 const {
     sequelize
-} = require('../dataConnection/index');
+} = require('../database/dataConnection');
 const {
     ServerLessPoc
-} = require('../dataModel/index');
+} = require('../database/dataModel');
 module.exports = function (context, req) {
     try {
         var fields = ["firstName", "lastName", "dateOfBirth", "passportId", "nId"];

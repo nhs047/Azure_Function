@@ -1,4 +1,4 @@
-const {sequelize} = require('../dataConnection/index');
+const {sequelize} = require('./dataConnection');
 const Sequelize = require('sequelize');
 const ServerLessPoc = sequelize.define('ServerLessPoc', {
     id:{
